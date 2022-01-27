@@ -27,26 +27,89 @@ function scoresAverage(movies){
       return 0;
     }
   
-  let scoresAverage = movies.reduce((acum, elem) => {
+  let totalScores = movies.reduce((acum, elem) => {
     if (elem.score === undefined) {
       return acum
+
     } else {
-    return acum + elem.score
+      return acum + elem.score
     }
   }, 0)
-  let averageScore = scoresAverage/movies.length;
-  return Digit (averageScore.toFixed(2));
+  let averageScore = totalScores/movies.length;
+  return Number (averageScore.toFixed(2));
 }
 
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
-function dramaMoviesScore() {}
+function dramaMoviesScore(movies){
+  if (movies.length === 0) {
+    return 0;
+  }
+
+let totalDramaScores = movies.reduce((acum, elem) => {
+  if (elem.score === undefined) {
+    return acum
+  } else if (elem.genre.includes("Drama")) {
+    return acum + elem.score
+  } else {
+    return acum
+  }
+}, 0)
+
+const peliculasDrama = movies.filter ( (dramaMovie) => {  
+  if (dramaMovie.genre.includes("Drama")){
+    return true;
+  }
+})
+
+if (peliculasDrama.length === 0) {
+  return 0
+}
+
+let averageDramaScore = totalDramaScores/peliculasDrama.length;
+return Number (averageDramaScore.toFixed(2));
+}
+
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
-function orderByYear() {}
+function orderByYear(movies) {
+  if (movies.length === 0) {
+    return 0;
+  }
+
+  let copyMovies = JSON.parse(JSON.stringify(movies))
+
+  let sortedMovies = copyMovies.sort( (first, second) => {
+    if (first.year > second.year) {
+      return 1
+    } else {
+      return -1 
+    }
+  })
+  return sortedMovies
+}
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically() {}
+function orderAlphabetically(movies) {
+  if (movies.length === 0) {
+    return 0;
+  }
+  
+  let copyMovies = JSON.parse( JSON.stringify( movies ) )
+
+  let onlyTitles =  copyMovies.map ( (unaPelicula) => {
+    return unaPelicula.title
+  })
+
+  let sortedMovies = onlyTitles.sort()
+
+  if (sortedMovies.length <20) {
+    return sortedMovies
+  } 
+
+  let deletedMovies = sortedMovies.splice(20, sortedMovies.length-20)
+  return sortedMovies
+}
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes() {}
